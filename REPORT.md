@@ -16,10 +16,10 @@
 
 | Bộ điều khiển | L2 vòng hở (m) | Va chạm vòng kín trên log (%) | Quyết định cổng |
 |---|---|---|---|
-| constant-velocity | 1,26713 | 19,52827 | |
+| constant-velocity | 1,26713 | 19,52827 | BLOCK: R2, R3, R4, R6 |
 | IDM | 1,50938 | 0,06937 | (baseline) |
-| EgoMLP | 0,75714–0,76447 | 12,34825–32,53555 | |
-| PercMLP | 0,62005–0,62597 | 0,24280–0,45092 | |
+| EgoMLP | 0,75714–0,76447 | 12,34825–32,53555 | BLOCK: R2, R3, R4, R5, R6 |
+| PercMLP | 0,62005–0,62597 | 0,24280–0,45092 | BLOCK: R4, R6 |
 | PercMLP+ (sau khi sửa) | | | |
 
 ## Câu 1 · Dữ liệu
@@ -97,7 +97,9 @@ Trong bộ số này IDM vẫn xếp trên constant-velocity ở cả hai thế 
 ## Câu 7 · Cổng phát hành và sửa
 Quy tắc nào chặn PercMLP và nguyên nhân gốc là gì (dẫn số)? Bạn sửa bằng gì và vì sao nó chữa đúng nguyên nhân? Sau khi qua cổng, PercMLP+ có **tốt hơn** IDM không? Nó có nên được phát hành không, và bạn đề xuất làm gì trước khi quyết định?
 
-(trả lời ở đây)
+PercMLP bị chặn ở R4 và R6 (`evidence/gate.json`): diện tích có thể tránh nhưng vẫn đâm khi trễ 0,6 s là 14,2222%, vượt IDM 0% + 2 điểm; va chạm bất kỳ với xe sau phản ứng là 21,6667%, vượt IDM 7,4444% + 2 điểm.
+Nguyên nhân phù hợp với bằng chứng là thiếu phủ các ca cắt vào có tốc độ tiến gần cao và cần phanh mạnh: giới hạn phanh người lái tham chiếu 3,62484 m/s², trong khi 8,5556% lưới đòi hỏi mạnh hơn.
+Trong bộ số của tôi R2 và R3 đã qua: cận trên Wilson toàn bộ là 0,77000% ≤ 1,06937%; cận trên lát cắt là 4,16365% ≤ 5,58480%. Vì vậy không thể viết rằng R2 cũng chặn PercMLP chỉ vì hướng dẫn nêu khả năng đó.
 
 ## Câu 8 · Bài lab này không chứng minh được gì
 Chọn **ít nhất ba** giới hạn quan trọng nhất đối với việc quyết định phát hành và giải thích vì sao mỗi cái làm kết luận của bạn kém chắc chắn. Điều gì cần làm tiếp để thu hẹp khoảng cách đến thế giới thật?

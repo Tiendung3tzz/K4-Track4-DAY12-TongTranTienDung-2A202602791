@@ -1,0 +1,43 @@
+COMMAND: /usr/bin/python3 -m unittest discover -s tests -k Gate -v
+test_good_candidate_is_released (test_lab12.Gate.test_good_candidate_is_released) ... ok
+test_irreproducible_replay_blocks_everything (test_lab12.Gate.test_irreproducible_replay_blocks_everything) ... ok
+test_one_failed_rule_blocks (test_lab12.Gate.test_one_failed_rule_blocks) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+OK
+COMMAND: /usr/bin/python3 -u run_all.py --student-id 2A202602791 --seeds 3 gate
+student 2A202602791: split seed 1043, model seeds [3173, 3174, 3175], cruise speed 12.0 m/s
+
+=== STEP 6 · release gate =================================================
+
+  candidate const-vel: BLOCK
+    [pass] R1_replay_reproducible     rerun identical and refactor differs beyond tol in 0 segments
+    [FAIL] R2_closed_loop_logs        candidate upper 95% 21.015 % <= baseline 0.069 % + 1.000 points (1.069 %)
+    [FAIL] R3_braking_slice           52.6 % (n=171, upper 60.0 %) vs baseline 0.6 % + 5 points
+    [FAIL] R4_scenario_grid           candidate 70.185 % <= baseline 0.000 % + 2.000 points (2.000 %)
+    [pass] R5_seed_stability          19.5 .. 19.5 % over 1 run(s)
+    [FAIL] R6_reactive_world          77.6 % of the grid vs baseline 7.4 %
+    [pass] R7_coverage                614 mined events, 2700 grid cells
+
+  candidate EgoMLP: BLOCK
+    [pass] R1_replay_reproducible     rerun identical and refactor differs beyond tol in 0 segments
+    [FAIL] R2_closed_loop_logs        candidate upper 95% 34.268 % <= baseline 0.069 % + 1.000 points (1.069 %)
+    [FAIL] R3_braking_slice           62.6 % (n=171, upper 69.5 %) vs baseline 0.6 % + 5 points
+    [FAIL] R4_scenario_grid           candidate 69.444 % <= baseline 0.000 % + 2.000 points (2.000 %)
+    [FAIL] R5_seed_stability          12.3 .. 32.5 % over 3 run(s)
+    [FAIL] R6_reactive_world          76.9 % of the grid vs baseline 7.4 %
+    [pass] R7_coverage                614 mined events, 2700 grid cells
+
+  candidate PercMLP: BLOCK
+    [pass] R1_replay_reproducible     rerun identical and refactor differs beyond tol in 0 segments
+    [pass] R2_closed_loop_logs        candidate upper 95% 0.770 % <= baseline 0.069 % + 1.000 points (1.069 %)
+    [pass] R3_braking_slice           1.2 % (n=171, upper 4.2 %) vs baseline 0.6 % + 5 points
+    [FAIL] R4_scenario_grid           candidate 14.222 % <= baseline 0.000 % + 2.000 points (2.000 %)
+    [pass] R5_seed_stability          0.2 .. 0.5 % over 3 run(s)
+    [FAIL] R6_reactive_world          21.7 % of the grid vs baseline 7.4 %
+    [pass] R7_coverage                614 mined events, 2700 grid cells
+  -> evidence/gate.json
+
+done in 0 s
