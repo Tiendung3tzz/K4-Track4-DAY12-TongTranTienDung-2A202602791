@@ -7,7 +7,7 @@
 | Họ và tên | Tống Trần Tiến Dũng |
 | MSSV (đúng bằng `--student-id` bạn đã chạy) | `2A202602791` |
 | GitHub | Tiendung3tzz |
-| Seed chia dữ liệu / seed mô hình (xem `evidence/closedloop.json`, mục `student`) | `<điền>` |
+| Seed chia dữ liệu / seed mô hình (xem `evidence/closedloop.json`, mục `student`) | Chia dữ liệu: 1043; mô hình: 3173, 3174, 3175 |
 | Số seed huấn luyện bạn dùng (`--seeds`) | 3 |
 
 ## Kết quả cuối
@@ -34,7 +34,12 @@ Tôi chia theo quỹ đạo vì các khung hình/cửa sổ gần nhau dùng chu
 ## Câu 2 · Phát lại
 Bản refactor float32 khác bit ở bao nhiêu đoạn, vượt dung sai ở bao nhiêu? Thay đổi AEB làm lệch bao nhiêu đoạn, và vì sao lệch ở đúng những khung đó (mở một đoạn ra xem)? Phát theo thời gian thật làm lộ ra điều gì mà phát nhanh nhất che đi?
 
-(trả lời ở đây)
+Cùng mã chạy lại giống hệt cả 600 đoạn; refactor float32 khác bit ở 600/600 đoạn nhưng 0 đoạn vượt dung sai, sai khác lớn nhất 0,000403132 m/s² (`evidence/replay.json`).
+Đổi độ chính xác và thứ tự phép toán gây sai số làm tròn; tôi chấp nhận `|new−golden| ≤ 0,001 + 0,001×|golden|` m/s², còn hai NaN đệm cùng vị trí được coi bằng nhau.
+AEB làm lệch 12/600 đoạn; ở đoạn 52 chỉ các khung 98–101 thay đổi, TTC lần lượt 1,4743; 1,4333; 1,4311; 1,4896 s, đều dưới ngưỡng 1,5 s (`evidence/replay_inspection.json`).
+Ví dụ khung 98 có gap 4,3033 m, tiến gần 2,9189 m/s: lệnh −5,4363 thành −6 m/s²; AEB chỉ đổi lệnh khi đang tiến gần, TTC thấp và lệnh cũ chưa phanh ít nhất −6 m/s².
+Trên 59.774 khung, chế độ nhanh nhất có 0 trễ/0 rớt; phát theo thời gian thật giả lập có 582 khung trễ, 576 khung rớt, làm 368/600 đoạn vượt dung sai.
+Chi phí xử lý đột biến vượt chu kỳ 100 ms khiến phải giữ lệnh cũ và bỏ thông điệp đến khi bộ điều khiển còn bận; phát nhanh nhất không áp hạn chót nên che lỗi này. Đây là mô phỏng lịch xử lý, không phải đo độ trễ phần cứng Colab.
 
 ## Câu 3 · Kịch bản
 Lưới của bạn (tốc độ cruise, giới hạn khoảng cách, số ô): bao nhiêu % ô **không ai tránh được**? Độ trễ phản ứng 0 → 0,6 s làm vùng đâm của IDM tăng bao nhiêu? Log có phủ vùng khó không? (dẫn giới hạn phanh mạnh nhất của người lái trong log, và phần lưới đòi hỏi hơn thế)

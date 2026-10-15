@@ -1,0 +1,23 @@
+COMMAND: /usr/bin/python3 -m unittest discover -s tests -k Replay -v
+test_messages_are_replayed_in_timestamp_order (test_lab12.Replay.test_messages_are_replayed_in_timestamp_order) ... ok
+test_realtime_replay_exposes_what_fastest_hides (test_lab12.Replay.test_realtime_replay_exposes_what_fastest_hides) ... ok
+test_same_code_twice_is_identical_refactor_needs_tolerance (test_lab12.Replay.test_same_code_twice_is_identical_refactor_needs_tolerance) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.162s
+
+OK
+COMMAND: /usr/bin/python3 -u run_all.py --student-id 2A202602791 --seeds 3 replay
+student 2A202602791: split seed 1043, model seeds [3173, 3174, 3175], cruise speed 12.0 m/s
+
+=== STEP 1 · replay: write a log, replay it, compare with a tolerance =====
+  log: 600 segments, 9.4 MB (replay_log.jsonl)
+  re-run of the same code      : 0/600 segments differ, 0 not bit-identical
+  refactor (float32, reordered): 0/600 differ beyond tol, but 600 are not bit-identical (max diff 4.0e-04)
+  behaviour change (add AEB)   : 12/600 segments differ -> open them: [52, 74, 136, 181, 191]
+  'fastest' replay             : 0 late, 0 dropped frames (deadlines do not exist)
+  real-time replay             : 582 late + 576 dropped of 59774 frames; 368/600 segments change
+  (0.1+0.2)+0.3 = 0.6000000000000001   0.1+(0.2+0.3) = 0.6
+  -> evidence/replay.json
+
+done in 4 s
