@@ -16,10 +16,10 @@
 
 | Bộ điều khiển | L2 vòng hở (m) | Va chạm vòng kín trên log (%) | Quyết định cổng |
 |---|---|---|---|
-| constant-velocity | | | |
-| IDM | | | (baseline) |
-| EgoMLP | | | |
-| PercMLP | | | |
+| constant-velocity | 1,26713 | | |
+| IDM | 1,50938 | | (baseline) |
+| EgoMLP | 0,75714–0,76447 | | |
+| PercMLP | 0,62005–0,62597 | | |
 | PercMLP+ (sau khi sửa) | | | |
 
 ## Câu 1 · Dữ liệu

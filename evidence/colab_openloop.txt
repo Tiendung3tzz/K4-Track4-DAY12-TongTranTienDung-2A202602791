@@ -1,0 +1,23 @@
+COMMAND: /usr/bin/python3 -m unittest discover -s tests -k OpenLoop -v
+test_l2_is_zero_for_perfect_prediction_and_sliced_correctly (test_lab12.OpenLoop.test_l2_is_zero_for_perfect_prediction_and_sliced_correctly) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+OK
+COMMAND: /usr/bin/python3 -u run_all.py --student-id 2A202602791 --seeds 3 openloop
+student 2A202602791: split seed 1043, model seeds [3173, 3174, 3175], cruise speed 12.0 m/s
+
+=== STEP 3 · open loop: score the planners by replaying held-out logs =====
+  train windows 166977, test windows 72156; 'lead brakes within 3 s' slice = 4.2 % of test windows
+  seed 3173: trained both (28 s)
+  seed 3174: trained both (55 s)
+  seed 3175: trained both (83 s)
+  planner      L2 all [m]   L2 brake slice
+  const-vel     1.267 ±0.000        1.744
+  IDM           1.509 ±0.000        1.550
+  EgoMLP        0.761 ±0.003        1.047
+  PercMLP       0.623 ±0.002        0.821
+  -> evidence/openloop.json
+
+done in 83 s
