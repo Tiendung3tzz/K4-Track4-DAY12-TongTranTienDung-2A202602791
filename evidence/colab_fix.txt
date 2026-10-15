@@ -1,0 +1,68 @@
+COMMAND: /usr/bin/python3 -m unittest discover -s tests -k Dagger -v
+test_windows_have_training_layout_and_expert_labels (test_lab12.Dagger.test_windows_have_training_layout_and_expert_labels) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.042s
+
+OK
+COMMAND: /usr/bin/python3 -u run_all.py --student-id 2A202602791 --seeds 3 fix
+student 2A202602791: split seed 1043, model seeds [3173, 3174, 3175], cruise speed 12.0 m/s
+
+=== STEP 7 · fix and re-gate: scenario windows + learning at the states the planner visits 
+  logs 166977 windows + 197060 windows from 20000 simulated cut-ins
+  seed 3173: trained with 2 DAgger rounds, 892483 windows (169 s)
+  seed 3174: trained with 2 DAgger rounds, 893944 windows (333 s)
+  seed 3175: trained with 2 DAgger rounds, 893309 windows (501 s)
+  -> evidence/closedloop.json
+  -> evidence/agents.json
+  -> evidence/openloop.json
+
+                  PercMLP     PercMLP+
+  open-loop L2 [m]            0.623        0.822
+  collisions on logs     0.2..0.5 %   0.1..0.2 %
+  cut-in grid (0.6 s)         14.2%         0.2%
+  held-out cruise speed 20 m/s (training saw <= 16): IDM       avoidable-but-collides 0.0..0.0 % of the grid
+  held-out cruise speed 20 m/s (training saw <= 16): PercMLP   avoidable-but-collides 22.8..33.1 % of the grid
+  held-out cruise speed 20 m/s (training saw <= 16): PercMLP+  avoidable-but-collides 0.4..1.4 % of the grid
+
+=== STEP 6 · release gate =================================================
+
+  candidate const-vel: BLOCK
+    [pass] R1_replay_reproducible     rerun identical and refactor differs beyond tol in 0 segments
+    [FAIL] R2_closed_loop_logs        candidate upper 95% 21.015 % <= baseline 0.069 % + 1.000 points (1.069 %)
+    [FAIL] R3_braking_slice           52.6 % (n=171, upper 60.0 %) vs baseline 0.6 % + 5 points
+    [FAIL] R4_scenario_grid           candidate 70.185 % <= baseline 0.000 % + 2.000 points (2.000 %)
+    [pass] R5_seed_stability          19.5 .. 19.5 % over 1 run(s)
+    [FAIL] R6_reactive_world          77.6 % of the grid vs baseline 7.4 %
+    [pass] R7_coverage                614 mined events, 2700 grid cells
+
+  candidate EgoMLP: BLOCK
+    [pass] R1_replay_reproducible     rerun identical and refactor differs beyond tol in 0 segments
+    [FAIL] R2_closed_loop_logs        candidate upper 95% 34.268 % <= baseline 0.069 % + 1.000 points (1.069 %)
+    [FAIL] R3_braking_slice           62.6 % (n=171, upper 69.5 %) vs baseline 0.6 % + 5 points
+    [FAIL] R4_scenario_grid           candidate 69.444 % <= baseline 0.000 % + 2.000 points (2.000 %)
+    [FAIL] R5_seed_stability          12.3 .. 32.5 % over 3 run(s)
+    [FAIL] R6_reactive_world          76.9 % of the grid vs baseline 7.4 %
+    [pass] R7_coverage                614 mined events, 2700 grid cells
+
+  candidate PercMLP: BLOCK
+    [pass] R1_replay_reproducible     rerun identical and refactor differs beyond tol in 0 segments
+    [pass] R2_closed_loop_logs        candidate upper 95% 0.770 % <= baseline 0.069 % + 1.000 points (1.069 %)
+    [pass] R3_braking_slice           1.2 % (n=171, upper 4.2 %) vs baseline 0.6 % + 5 points
+    [FAIL] R4_scenario_grid           candidate 14.222 % <= baseline 0.000 % + 2.000 points (2.000 %)
+    [pass] R5_seed_stability          0.2 .. 0.5 % over 3 run(s)
+    [FAIL] R6_reactive_world          21.7 % of the grid vs baseline 7.4 %
+    [pass] R7_coverage                614 mined events, 2700 grid cells
+
+  candidate PercMLP+: RELEASE
+    [pass] R1_replay_reproducible     rerun identical and refactor differs beyond tol in 0 segments
+    [pass] R2_closed_loop_logs        candidate upper 95% 0.405 % <= baseline 0.069 % + 1.000 points (1.069 %)
+    [pass] R3_braking_slice           0.6 % (n=171, upper 3.2 %) vs baseline 0.6 % + 5 points
+    [pass] R4_scenario_grid           candidate 0.222 % <= baseline 0.000 % + 2.000 points (2.000 %)
+    [pass] R5_seed_stability          0.1 .. 0.2 % over 3 run(s)
+    [pass] R6_reactive_world          7.7 % of the grid vs baseline 7.4 %
+    [pass] R7_coverage                614 mined events, 2700 grid cells
+  -> evidence/gate.json
+  -> evidence/fix.json
+
+done in 521 s

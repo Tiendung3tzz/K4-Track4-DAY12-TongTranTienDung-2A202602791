@@ -20,7 +20,7 @@
 | IDM | 1,50938 | 0,06937 | (baseline) |
 | EgoMLP | 0,75714–0,76447 | 12,34825–32,53555 | BLOCK: R2, R3, R4, R5, R6 |
 | PercMLP | 0,62005–0,62597 | 0,24280–0,45092 | BLOCK: R4, R6 |
-| PercMLP+ (sau khi sửa) | | | |
+| PercMLP+ (sau khi sửa) | 0,78333–0,84437 | 0,13874–0,17343 | RELEASE: qua 7/7 quy tắc |
 
 ## Câu 1 · Dữ liệu
 Bước 0 bạn phát hiện những vấn đề gì ở dữ liệu? Vì sao không dùng cột `Acc_LV`, và bạn thay bằng gì? Bao nhiêu quỹ đạo bị loại vì trùng, và vì sao chia theo quỹ đạo?
@@ -98,10 +98,19 @@ Trong bộ số này IDM vẫn xếp trên constant-velocity ở cả hai thế 
 Quy tắc nào chặn PercMLP và nguyên nhân gốc là gì (dẫn số)? Bạn sửa bằng gì và vì sao nó chữa đúng nguyên nhân? Sau khi qua cổng, PercMLP+ có **tốt hơn** IDM không? Nó có nên được phát hành không, và bạn đề xuất làm gì trước khi quyết định?
 
 PercMLP bị chặn ở R4 và R6 (`evidence/gate.json`): diện tích có thể tránh nhưng vẫn đâm khi trễ 0,6 s là 14,2222%, vượt IDM 0% + 2 điểm; va chạm bất kỳ với xe sau phản ứng là 21,6667%, vượt IDM 7,4444% + 2 điểm.
-Nguyên nhân phù hợp với bằng chứng là thiếu phủ các ca cắt vào có tốc độ tiến gần cao và cần phanh mạnh: giới hạn phanh người lái tham chiếu 3,62484 m/s², trong khi 8,5556% lưới đòi hỏi mạnh hơn.
-Trong bộ số của tôi R2 và R3 đã qua: cận trên Wilson toàn bộ là 0,77000% ≤ 1,06937%; cận trên lát cắt là 4,16365% ≤ 5,58480%. Vì vậy không thể viết rằng R2 cũng chặn PercMLP chỉ vì hướng dẫn nêu khả năng đó.
+Nguyên nhân phù hợp với bằng chứng là thiếu phủ các ca cắt vào có tốc độ tiến gần cao và cần phanh mạnh: giới hạn phanh người lái tham chiếu 3,62484 m/s², trong khi 8,5556% lưới đòi hỏi mạnh hơn. Bổ sung 20.000 ca cắt vào tạo 197.060 cửa sổ gắn nhãn IDM để học phản ứng ở miền này (`evidence/colab_fix.txt`).
+DAgger cho mô hình tự lái trên log train, ghi đúng trạng thái nó đi vào rồi lấy dự báo 3 s của IDM làm nhãn; hai vòng bổ sung giúp học phục hồi sau sai số tích luỹ thay vì chỉ học trạng thái người lái. Do hai cách sửa được dùng cùng nhau, chưa có thí nghiệm tách riêng để định lượng đóng góp từng cách.
+R2 và R3 của PercMLP gốc đã qua: cận trên Wilson toàn bộ 0,77000% ≤ 1,06937%, cận trên lát cắt 4,16365% ≤ 5,58480%; vì vậy không gán sai rằng R2 chặn ứng viên này. Dù vậy nó gây 7–13 va chạm/seed so với IDM 2, nên vẫn có khoảng cách khi tự lái.
+Sau sửa, R4 từ rớt thành qua với 0,2222% ≤ 2%; R6 cũng qua với 7,6667% ≤ 9,4444%. Va chạm trên log giảm còn 0,13874–0,17343%, cận trên Wilson seed xấu nhất 0,40537%; cả 7 quy tắc đều qua (`evidence/closedloop.json`, `gate.json`, `fix.json`).
+L2 trung bình lại tăng 0,62309 → 0,82210 m; dải từng seed PercMLP+ là 0,78333–0,84437 m (`evidence/colab_diagnostics.json`). Học phản ứng an toàn hơn trong các phép thử không nhất thiết làm quỹ đạo giống người lái hơn.
+Qua cổng chỉ là đạt tiêu chí không kém hơn với dung sai đã chọn, chưa chứng minh tốt hơn IDM: PercMLP+ vẫn có 4–5 va chạm/seed so với IDM 2; ở cruise 20 m/s ngoài dải 4–16 m/s của họ kịch bản bổ sung, phần đâm có thể tránh là 0,4444–1,4444%, còn IDM 0% (`evidence/fix.json`).
+Mô hình học cả nhãn người lái lẫn nhãn IDM nên không có bảo đảm vượt thầy. Tôi chưa đề xuất thay IDM ngay; cần giữ baseline, thử riêng từng cách sửa, mở rộng tình huống/tác nhân và chạy quan sát song song cùng kiểm thử thực có kiểm soát trước quyết định phát hành ngoài bài lab.
 
 ## Câu 8 · Bài lab này không chứng minh được gì
 Chọn **ít nhất ba** giới hạn quan trọng nhất đối với việc quyết định phát hành và giải thích vì sao mỗi cái làm kết luận của bạn kém chắc chắn. Điều gì cần làm tiếp để thu hẹp khoảng cách đến thế giới thật?
 
-(trả lời ở đây)
+Mô phỏng chỉ xét chuyển động dọc với bước thời gian 0,1 s, bỏ qua đổi làn, cua, người đi bộ, độ bám đường và động lực học chấp hành thực; qua cổng ở đây không chứng minh xe tránh được va chạm trong giao thông đầy đủ. Cần kiểm thử mô phỏng nhiều chiều, kiểm thử phần cứng trong vòng lặp và đường thử có kiểm soát.
+Xe dẫn trên log không phản ứng với xe thử, còn xe sau phản ứng chỉ là một luật IDM đã khớp phân bố headway. Việc tỷ lệ va chạm bất kỳ của IDM đổi 75,7407% → 7,4444% khi đổi giả định xe sau cho thấy kết luận phụ thuộc thế giới mô phỏng; cần nhiều kiểu tài xế và tương tác hai chiều được kiểm chứng bằng dữ liệu thật.
+Chỉ có 614 sự kiện phanh và 2.700 ô từ một nguồn Argoverse, lưới chính cruise 12 m/s; chia theo quỹ đạo tránh rò rỉ nhưng không bảo đảm bao phủ miền vận hành. Cần thêm tuyến đường, tốc độ, thời tiết, hành vi hiếm và các tập đánh giá độc lập theo bối cảnh.
+Quan sát mô phỏng gần như lý tưởng; phép thử thêm nhiễu gap 1 m và tốc độ xe dẫn 0,5 m/s chỉ là một cấu hình, không bao phủ che khuất, mất phát hiện, sai phân loại hay trễ biến thiên. Cần tích hợp cảm biến thật, lỗi có tương quan và phân bố độ trễ đo trên hệ thống đích.
+Ba seed dùng cùng 2.883 quỹ đạo test và các đoạn chỉ dài 70–109 mẫu; Wilson trong tập này không bảo đảm rủi ro dài hạn hay bao phủ mọi seed. Cần nhiều lần chia dữ liệu độc lập, rollout dài hơn, phân tích từng va chạm và đánh giá thêm độ êm, khoảng cách, tiến độ di chuyển trước quyết định phát hành.
