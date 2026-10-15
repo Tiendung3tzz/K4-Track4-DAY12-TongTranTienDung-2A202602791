@@ -81,7 +81,18 @@ Wilson mô tả bất định tỷ lệ trên các quỹ đạo trong điều ki
 ## Câu 6 · Tác nhân phản ứng
 Dán bảng "xe sau phát lại" và "xe sau phản ứng". `T` bạn hiệu chỉnh là bao nhiêu, xe sau chân thực đến mức nào so với xe không phản ứng? Vì sao IDM bị tính "va chạm giả" khi xe sau chỉ phát lại, và điều này làm đổi kết luận về bộ điều khiển ra sao?
 
-(trả lời ở đây)
+Bảng ghép hai thế giới tại độ trễ xe thử 0,6 s; xe sau cách 18,8 m, trễ phản ứng 0,6 s. Mỗi mô hình học dùng hàng của seed có tỷ lệ va chạm bất kỳ trong thế giới phản ứng cao nhất (`evidence/agents.json`).
+
+| Bộ điều khiển | Xe sau phát lại: bất kỳ (%) | Xe sau phát lại: phía sau (%) | Xe sau phản ứng: bất kỳ (%) | Xe sau phản ứng: phía sau (%) |
+|---|---|---|---|---|
+| constant-velocity | 77,6296 | 0 | 77,6296 | 0 |
+| IDM | 75,7407 | 68,2963 | 7,4444 | 0 |
+| EgoMLP | 76,8889 | 0 | 76,8889 | 0 |
+| PercMLP | 77,8519 | 56,2222 | 21,6667 | 0 |
+
+Hiệu chỉnh chọn `T = 1,4 s`, có Wasserstein-1 giữa phân bố headway mô phỏng và người lái thấp nhất trong các T thử: 0,36263 s, so với 0,80162 s ở xe không phản ứng; headway trung vị người lái là 1,86442 s. Đây là khớp một phân bố hành vi, chưa chứng minh giống mọi tài xế.
+Khi IDM phanh tránh xe cắt vào, xe sau phát lại vẫn giữ tốc độ cũ và đâm vào xe thử: 68,2963% ô bị tính va chạm sau. Con số này về 0 khi xe sau phản ứng, cho thấy giả định phát lại tạo ra va chạm không phù hợp với tác nhân đã hiệu chỉnh, không chứng minh mọi va chạm sau ngoài đời đều tránh được.
+Trong bộ số này IDM vẫn xếp trên constant-velocity ở cả hai thế giới, nhưng khoảng cách tỷ lệ va chạm bất kỳ tăng từ 1,8889 lên 70,1852 điểm phần trăm; không có đảo hạng giữa hai bộ này. PercMLP mới là cặp đảo hạng với constant-velocity: từ 77,8519% > 77,6296% thành 21,6667% < 77,6296%.
 
 ## Câu 7 · Cổng phát hành và sửa
 Quy tắc nào chặn PercMLP và nguyên nhân gốc là gì (dẫn số)? Bạn sửa bằng gì và vì sao nó chữa đúng nguyên nhân? Sau khi qua cổng, PercMLP+ có **tốt hơn** IDM không? Nó có nên được phát hành không, và bạn đề xuất làm gì trước khi quyết định?
