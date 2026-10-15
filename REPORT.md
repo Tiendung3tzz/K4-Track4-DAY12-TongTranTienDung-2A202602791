@@ -4,11 +4,11 @@
 
 | | |
 |---|---|
-| Họ và tên | `<điền>` |
-| MSSV (đúng bằng `--student-id` bạn đã chạy) | `<điền>` |
-| GitHub | `<điền: tên tài khoản>` |
+| Họ và tên | Tống Trần Tiến Dũng |
+| MSSV (đúng bằng `--student-id` bạn đã chạy) | `2A202602791` |
+| GitHub | Tiendung3tzz |
 | Seed chia dữ liệu / seed mô hình (xem `evidence/closedloop.json`, mục `student`) | `<điền>` |
-| Số seed huấn luyện bạn dùng (`--seeds`) | `<điền>` |
+| Số seed huấn luyện bạn dùng (`--seeds`) | 3 |
 
 ## Kết quả cuối
 
@@ -25,7 +25,11 @@
 ## Câu 1 · Dữ liệu
 Bước 0 bạn phát hiện những vấn đề gì ở dữ liệu? Vì sao không dùng cột `Acc_LV`, và bạn thay bằng gì? Bao nhiêu quỹ đạo bị loại vì trùng, và vì sao chia theo quỹ đạo?
 
-(trả lời ở đây)
+Dữ liệu gốc có 992.679 dòng, 9.993 quỹ đạo, lấy mẫu mỗi 0,1 s; độ dài 70–109 bước, trung vị 106 bước (`evidence/data_audit.json`).
+Tương quan giữa `Acc_LV` và đạo hàm `Speed_LV` chỉ 0,04535, trong khi cột gia tốc xe theo sau đạt 0,92909; vì vậy `Acc_LV` không đáng tin để tìm sự kiện phanh.
+Tôi dùng gia tốc suy ra từ `Speed_LV` đã làm mượt, tránh khuếch đại nhiễu khi lấy đạo hàm và tránh xem một mẫu nhiễu là phanh kéo dài.
+Chương trình loại 383 quỹ đạo trùng hệt, còn 9.610; các bản trùng mang ID khác nhau nên nếu không loại trước khi chia, cùng một tình huống có thể lọt vào cả train và test.
+Tôi chia theo quỹ đạo vì các khung hình/cửa sổ gần nhau dùng chung lịch sử và tương lai; chia ngẫu nhiên theo khung gây rò rỉ và làm điểm kiểm thử lạc quan giả.
 
 ## Câu 2 · Phát lại
 Bản refactor float32 khác bit ở bao nhiêu đoạn, vượt dung sai ở bao nhiêu? Thay đổi AEB làm lệch bao nhiêu đoạn, và vì sao lệch ở đúng những khung đó (mở một đoạn ra xem)? Phát theo thời gian thật làm lộ ra điều gì mà phát nhanh nhất che đi?
