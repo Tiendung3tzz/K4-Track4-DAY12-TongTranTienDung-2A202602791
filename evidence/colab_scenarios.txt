@@ -1,0 +1,43 @@
+COMMAND: /usr/bin/python3 -m unittest discover -s tests -k Metrics -v
+test_float_addition_is_not_associative (test_lab12.Metrics.test_float_addition_is_not_associative) ... ok
+test_slide_examples (test_lab12.Metrics.test_slide_examples) ... ok
+test_ttc_and_required_decel_work_on_arrays (test_lab12.Metrics.test_ttc_and_required_decel_work_on_arrays) ... ok
+test_unavoidable_frontier (test_lab12.Metrics.test_unavoidable_frontier) ... ok
+test_wilson (test_lab12.Metrics.test_wilson) ... ok
+test_wilson_edges (test_lab12.Metrics.test_wilson_edges) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.005s
+
+OK
+COMMAND: /usr/bin/python3 -m unittest discover -s tests -k Mining -v
+test_a_sustained_braking_lead_is_found_and_a_one_step_blip_is_not (test_lab12.Mining.test_a_sustained_braking_lead_is_found_and_a_one_step_blip_is_not) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.005s
+
+OK
+COMMAND: /usr/bin/python3 -m unittest discover -s tests -k Simulator -v
+test_const_vel_hits_a_slower_cutter_and_idm_does_not (test_lab12.Simulator.test_const_vel_hits_a_slower_cutter_and_idm_does_not) ... ok
+test_full_brake_collides_exactly_where_physics_says (test_lab12.Simulator.test_full_brake_collides_exactly_where_physics_says) ... ok
+test_reactive_rear_car_removes_fake_rear_collisions (test_lab12.Simulator.test_reactive_rear_car_removes_fake_rear_collisions) ... ok
+test_rollout_on_logs_human_replay_has_no_collision_for_a_follower_that_copies_the_human (test_lab12.Simulator.test_rollout_on_logs_human_replay_has_no_collision_for_a_follower_that_copies_the_human) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.160s
+
+OK
+COMMAND: /usr/bin/python3 -u run_all.py --student-id 2A202602791 --seeds 3 scenarios
+student 2A202602791: split seed 1043, model seeds [3173, 3174, 3175], cruise speed 12.0 m/s
+
+=== STEP 2 · scenarios: mine the logs, build the grid, validate the simulator 
+  worked example: gap 12 m, closing 5 m/s -> TTC = 2.40 s, required decel = 1.04 m/s^2
+  mined 614 lead-braking events out of 9610 trajectories (6.4 %); peak lead decel p50 -2.5, p99 -4.2 m/s^2
+  hardest braking any logged human applied (99.9th percentile): 3.6 m/s^2; the actuator can do 9
+  grid 60 gaps x 45 closing speeds = 2700 cells; 9 % of the grid needs braking harder than any logged human ever did
+  validation t_react=0.0: full-brake collides in 2.2 % of cells, physics says 2.2 % unavoidable; mismatching cells away from the frontier: 0
+  validation t_react=0.6: full-brake collides in 7.4 % of cells, physics says 7.4 % unavoidable; mismatching cells away from the frontier: 0
+  IDM, t_react 0.0 -> 0.6 s: collision area 2.2 % -> 7.4 %
+  -> evidence/scenarios.json
+
+done in 2 s

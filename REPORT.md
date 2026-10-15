@@ -44,7 +44,12 @@ Chi phí xử lý đột biến vượt chu kỳ 100 ms khiến phải giữ l�
 ## Câu 3 · Kịch bản
 Lưới của bạn (tốc độ cruise, giới hạn khoảng cách, số ô): bao nhiêu % ô **không ai tránh được**? Độ trễ phản ứng 0 → 0,6 s làm vùng đâm của IDM tăng bao nhiêu? Log có phủ vùng khó không? (dẫn giới hạn phanh mạnh nhất của người lái trong log, và phần lưới đòi hỏi hơn thế)
 
-(trả lời ở đây)
+Với cruise 12 m/s, lưới gồm 60 khoảng cách từ 2,76005 đến 59,31233 m và 45 tốc độ tiến gần từ 0 đến 12 m/s, tổng 2.700 ô (`evidence/scenarios.json`).
+Biên bất khả thi là `gap < dv×t_react + dv²/(2×9)` với `dv > 0`: mất khoảng cách trong thời gian trễ cộng quãng đường cần để triệt tiêu tốc độ tiến gần khi phanh cực đại.
+Ở độ trễ 0 s có 2,2222% ô bất khả thi; tại 0,6 s là 7,4444%. Vùng đâm của IDM tăng tương ứng từ 2,2222% lên 7,4444%, tức 5,2222 điểm phần trăm; phần va chạm có thể tránh nhưng IDM gây ra bằng 0 ở cả hai độ trễ.
+Full-brake khớp biên vật lý với 0 ô lệch ngoài dải sát biên ở cả hai độ trễ, nên không quy toàn bộ vùng đâm cho lỗi điều khiển.
+Khai thác được 614 sự kiện phanh/9.610 quỹ đạo (6,3892%); giới hạn phanh người lái tham chiếu p99,9 là 3,62484 m/s², trong khi cơ cấu chấp hành cho phép 9 m/s²; 8,5556% lưới đòi hỏi mạnh hơn giới hạn tham chiếu này.
+Các chấm trắng trong `evidence/scenarios_idm.png` tập trung ở tốc độ tiến gần thấp, phần lớn xa vùng tốc độ tiến gần cao sát biên va chạm; log có sự kiện phanh nhưng phủ thưa các ca cắt vào khó. Giá trị p99,9 là phân vị tham chiếu, không phải cực đại tuyệt đối của mọi mẫu.
 
 ## Câu 4 · Vòng hở và vòng kín
 Dán bảng L2 và tỷ lệ va chạm của bốn bộ điều khiển (kèm hạng ở mỗi cách chấm). Cặp nào đổi thứ tự? Vì sao IDM có L2 như vậy mà vẫn lái tốt? Vì sao EgoMLP có L2 tốt hơn constant-velocity mà vẫn đâm?
