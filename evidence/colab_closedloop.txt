@@ -1,0 +1,31 @@
+COMMAND: /usr/bin/python3 -m unittest discover -s tests -k wilson -v
+test_wilson (test_lab12.Metrics.test_wilson) ... ok
+test_wilson_edges (test_lab12.Metrics.test_wilson_edges) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.000s
+
+OK
+COMMAND: /usr/bin/python3 -u run_all.py --student-id 2A202602791 --seeds 3 closedloop
+student 2A202602791: split seed 1043, model seeds [3173, 3174, 3175], cruise speed 12.0 m/s
+
+=== STEP 4 · closed loop: let each planner drive against the replayed lead 
+  2883 held-out trajectories, 171 of them with a braking lead; human median min gap 9.4 m
+  const-vel  collisions: 19.5 %         (worst seed CI95 [18.1, 21.0]); on braking-lead trajectories 52.6 %
+  IDM        collisions: 0.1 %          (worst seed CI95 [0.0, 0.3]); on braking-lead trajectories 0.6 %
+  EgoMLP     collisions: 12.3..32.5 %   (worst seed CI95 [30.8, 34.3]); on braking-lead trajectories 62.6 %
+  PercMLP    collisions: 0.2..0.5 %     (worst seed CI95 [0.3, 0.8]); on braking-lead trajectories 1.2 %
+  with perception noise (gap ±1 m, lead speed ±0.5 m/s) IDM     : 0.1..0.1 %
+  with perception noise (gap ±1 m, lead speed ±0.5 m/s) PercMLP : 0.3..0.5 %
+  cut-in grid t_react=0.0: unavoidable 2.2 %; avoidable-but-collides (worst seed): const-vel 75.4 %, IDM 0.0 %, EgoMLP 74.6 %, PercMLP 6.4 %
+  cut-in grid t_react=0.6: unavoidable 7.4 %; avoidable-but-collides (worst seed): const-vel 70.2 %, IDM 0.0 %, EgoMLP 69.4 %, PercMLP 14.2 %
+
+  planner     open-loop L2   rank | closed-loop collisions   rank
+  const-vel     1.267 m    3   |         19.5 %         3
+  IDM           1.509 m    4   |          0.1 %         1
+  EgoMLP        0.761 m    2   |         19.9 %         4
+  PercMLP       0.623 m    1   |          0.4 %         2
+  pairs whose order flips between the two scorings: [('const-vel', 'IDM'), ('const-vel', 'EgoMLP'), ('IDM', 'EgoMLP'), ('IDM', 'PercMLP')]
+  -> evidence/closedloop.json
+
+done in 15 s
